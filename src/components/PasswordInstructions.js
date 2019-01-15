@@ -15,16 +15,18 @@ const PasswordInstructions = props => {
       <span>Password must contain the following:</span><br/>
       <div className="col-xs-6">
         <ul>
-          {props.validateLength ? Tick() : Cross()} Minimum 8 characters<br/>
-          {props.validateLowerCase ? Tick() : Cross()} Lower case letter [a-z]<br/>
-          {props.validateUpperCase ? Tick() : Cross()} Upper case letter [A-Z]<br/>
+          <li>{props.validateLength ? Tick() : Cross()} Minimum 8 characters</li>
+          <li>{props.validateLowerCase ? Tick() : Cross()} Lower case letter [a-z]</li>
+          <li>{props.validateUpperCase ? Tick() : Cross()} Upper case letter [A-Z]</li>
         </ul>
       </div>
       <div className="col-xs-6">
         <ul>
-          {props.validateNumber ? Tick() : Cross()} Numeric character [0-9]<br/>
-          {props.validateSpecialCharacter ? Tick() : Cross()} Special character<br/><br/>
+          <li>{props.validateNumber ? Tick() : Cross()} Numeric character [0-9]</li>
+          <li>{props.validateSpecialCharacter ? Tick() : Cross()} Special character</li>
         </ul>
+        <br/>
+        <br/>
       </div>
     </div>
   )
