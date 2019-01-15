@@ -1,0 +1,42 @@
+version: "2"
+checks:
+  argument-count:
+    enabled: true
+  complex-logic:
+    enabled: true
+  eslint:
+    enabled: true
+    config:
+      extensions:
+      - .js
+      - .jsx
+    channel: "eslint-4"
+  file-lines:
+    enabled: true
+    threshold: 350
+  method-complexity:
+    enabled: true
+  method-count:
+    enabled: true
+  method-lines:
+    enabled: true
+    config:
+      threshold: 50
+  nested-control-flow:
+    enabled: true
+  return-statements:
+    enabled: true
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: true
+exclude_patterns:
+  - "acceptance_tests/"
+  - "docs/"
+  - "env/"
+  - "legal/"
+  - "node_modules/"
+  - "tools/"
+  - "src/assets/"
+  - "src/index.ejs"
+  - "**/*.test.js"
