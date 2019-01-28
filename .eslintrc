@@ -73,5 +73,10 @@
       "modules": true
     },
     "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
