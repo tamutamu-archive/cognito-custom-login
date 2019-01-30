@@ -88,22 +88,15 @@ class LoginPage extends Component {
         countDown: duration - 1
       })
     } else {
-      if (this.state.mode === 2) {
-        showError(mfaMessages.errorMsg, MODE.CODE_EXPIRED, mfaCount, mfaMessages)
-      } else {
-        showError(updatePasswordMessages.errorMsg, MODE.CODE_EXPIRED, mfaCount, updatePasswordMessages)
-      }
+      this.state.mode === 2 ? showError(mfaMessages.errorMsg, MODE.CODE_EXPIRED, mfaCount, mfaMessages)
+        : showError(updatePasswordMessages.errorMsg, MODE.CODE_EXPIRED, mfaCount, updatePasswordMessages)
       clearInterval(this.timer)
     }
   }
 
   showNewPasswordRequiredArea () {
-    this.setState({
-      mode: MODE.NEW_PASSWORD,
-      errorMsg: ''
-    })
+    this.setState({mode: MODE.NEW_PASSWORD, errorMsg: ''})
     const intervalTime = 1000
-
     this.timer = setInterval(this.startTimer, intervalTime)
   }
 
@@ -130,9 +123,7 @@ class LoginPage extends Component {
       userMsg1: cardMessages.userMsg1,
       userMsg2: cardMessages.userMsg2
     })
-    if (mode !== MODE.CODE_EXPIRED) {
-      this.inputRef.current.focus()
-    }
+    if (mode !== MODE.CODE_EXPIRED) { this.inputRef.current.focus() }
   }
 
   validate (event) {
@@ -143,9 +134,7 @@ class LoginPage extends Component {
     const attemptsRemaining = this.state.MfaAttemptsRemaining
     const setCognitoToken = this.setCognitoToken
     const mfaCount = 3
-    this.setState({
-      disableVerify: true
-    })
+    this.setState({disableVerify: true})
     cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
       onSuccess: result => {
         setCognitoToken(JSON.stringify(result))
@@ -175,17 +164,12 @@ class LoginPage extends Component {
     const setCognitoToken = this.setCognitoToken
 
     const cognitoUser = Auth.createUser(this.state)
-    this.setState({
-      cognitoUser: cognitoUser,
-      disableSignIn: true
-    })
+    this.setState({cognitoUser: cognitoUser, disableSignIn: true})
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
 
     const authenticationDetails = Auth.authenticationDetails(this.state)
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
-      newPasswordRequired: (userAttributes, requiredAttributes) => {
-        showNewPasswordRequiredArea()
-      },
+      newPasswordRequired: (userAttributes, requiredAttributes) => { showNewPasswordRequiredArea() },
       onFailure: err => {
         const errorMessage = customErrorMessage(err.message)
         showError(errorMessage)
@@ -194,15 +178,9 @@ class LoginPage extends Component {
         // device challenge
         const challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
         cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
-          onSuccess: result => {
-            setCognitoToken(JSON.stringify(result))
-          },
-          onFailure: err => {
-            showError(err.message)
-          },
-          customChallenge: challengeParameters => {
-            showValidationArea(challengeParameters.maskedEmail)
-          }
+          onSuccess: result => { setCognitoToken(JSON.stringify(result)) },
+          onFailure: err => { showError(err.message) },
+          customChallenge: challengeParameters => { showValidationArea(challengeParameters.maskedEmail) }
         })
       }
     })
@@ -216,19 +194,12 @@ class LoginPage extends Component {
     switch (this.state.confirmPassword) {
       case this.state.newPassword:
         cognitoUser.completeNewPasswordChallenge(this.state.newPassword, {}, {
-          onSuccess: result => {
-            setCognitoToken(JSON.stringify(result))
-          },
-          onFailure: err => {
-            showError(err.message, MODE.NEW_PASSWORD)
-          }
+          onSuccess: result => { setCognitoToken(JSON.stringify(result)) },
+          onFailure: err => { showError(err.message, MODE.NEW_PASSWORD) }
         })
         break
       default: {
-        this.setState({
-          newPassword: '',
-          confirmPassword: ''
-        })
+        this.setState({newPassword: '', confirmPassword: ''})
         showError('Passwords do not match', MODE.NEW_PASSWORD)
       }
     }
@@ -248,77 +219,87 @@ class LoginPage extends Component {
     clearInterval(this.timer)
   }
 
+  renderMfaForm () {
+    return <MfaForm
+      disableVerify={this.state.disableVerify}
+      maskedEmail={this.state.maskedEmail}
+      code={this.state.code}
+      onCodeChange={this.onInputChange}
+      onValidate={event => this.validate(event)}
+      onCancel={this.onCancel}
+      errorMsg={this.state.errorMsg}
+      countDown={this.state.countDown}
+      inputRef={this.inputRef}
+      onResend={event => this.login(event)} />
+  }
+
+  renderNewPasswordRequiredForm () {
+    return <NewPasswordRequiredForm
+      validateLength={this.state.maxLength}
+      validateLowerCase={this.state.lowerCase}
+      validateUpperCase={this.state.upperCase}
+      validateNumber={this.state.number}
+      validateSpecialCharacter={this.state.specialCharacter}
+      errorMsg={this.state.errorMsg}
+      confirmPassword={this.state.confirmPassword}
+      newPassword={this.state.newPassword}
+      onNewPasswordChange={this.onInputChange}
+      onConfirmPasswordChange={this.onInputChange}
+      onCancel={this.onCancel}
+      sessionTime={this.state.countDown}
+      onSubmit={event => this.changePassword(event)}
+      inputRef={this.inputRef} />
+  }
+
+  renderLoginForm () {
+    const props = this.props
+    return <LoginForm
+      onSubmit={event => this.login(event)}
+      disableSignIn={this.state.disableSignIn}
+      errorMsg={this.state.errorMsg}
+      successMessage={props.history.location.msg}
+      email={this.state.email}
+      password={this.state.password}
+      onEmailChange={this.onInputChange}
+      onPasswordChange={this.onInputChange}
+      inputRef={this.inputRef} />
+  }
+
+  renderCodeExpired () {
+    return <CodeExpired
+      onReturn={this.onCancel}
+      userMsg1={this.state.userMsg1}
+      userMsg2={this.state.userMsg2}
+      errorMsg={this.state.errorMsg} />
+  }
+
   render () {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
-    const props = this.props
     let comp
     switch (this.state.mode) {
       // MFA PAGE
       case MODE.VALIDATING:
-        comp = <MfaForm
-          disableVerify={this.state.disableVerify}
-          maskedEmail={this.state.maskedEmail}
-          code={this.state.code}
-          onCodeChange={this.onInputChange}
-          onValidate={event => this.validate(event)}
-          onCancel={this.onCancel}
-          errorMsg={this.state.errorMsg}
-          countDown={this.state.countDown}
-          inputRef={this.inputRef}
-          onResend={event => this.login(event)} />
+        comp = this.renderMfaForm()
         break
       case MODE.NEW_PASSWORD:
-        comp = <NewPasswordRequiredForm
-          validateLength={this.state.maxLength}
-          validateLowerCase={this.state.lowerCase}
-          validateUpperCase={this.state.upperCase}
-          validateNumber={this.state.number}
-          validateSpecialCharacter={this.state.specialCharacter}
-          errorMsg={this.state.errorMsg}
-          confirmPassword={this.state.confirmPassword}
-          newPassword={this.state.newPassword}
-          onNewPasswordChange={this.onInputChange}
-          onConfirmPasswordChange={this.onInputChange}
-          onCancel={this.onCancel}
-          sessionTime={this.state.countDown}
-          onSubmit={event => this.changePassword(event)}
-          inputRef={this.inputRef} />
-
+        comp = this.renderNewPasswordRequiredForm()
         break
       case MODE.LOGIN:
-        comp = <LoginForm
-          onSubmit={event => this.login(event)}
-          disableSignIn={this.state.disableSignIn}
-          errorMsg={this.state.errorMsg}
-          successMessage={props.history.location.msg}
-          email={this.state.email}
-          password={this.state.password}
-          onEmailChange={this.onInputChange}
-          onPasswordChange={this.onInputChange}
-          inputRef={this.inputRef} />
+        comp = this.renderLoginForm()
         break
       case MODE.CODE_EXPIRED:
-        comp = <CodeExpired
-          onReturn={this.onCancel}
-          userMsg1={this.state.userMsg1}
-          userMsg2={this.state.userMsg2}
-          errorMsg={this.state.errorMsg} />
+        comp = this.renderCodeExpired()
         break
       default:
         this.showError('Unknown Request')
         break
     }
-    return (
-      <React.Fragment>
-        {comp}
-        <form id='login-form' action={perryLoginUrl} method='post'>
-          <input
-            type='hidden'
-            name="CognitoResponse"
-            value={this.state.cognitoJson} />
-        </form>
-      </React.Fragment>
-    )
+    return <React.Fragment>
+      {comp}
+      <form id='login-form' action={perryLoginUrl} method='post'>
+        <input type='hidden' name="CognitoResponse" value={this.state.cognitoJson} />
+      </form>
+    </React.Fragment>
   }
 }
 

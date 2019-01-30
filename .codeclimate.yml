@@ -40,3 +40,4 @@ exclude_patterns:
   - "src/assets/"
   - "src/index.ejs"
   - "**/*.test.js"
+  - "*.config.*.js"
