@@ -247,7 +247,9 @@ describe('LoginPage.js Tests', () => {
       wrapper.instance().showError = mockShowError
       wrapper.instance().validate(event)
       expect(mockShowError.mock.calls.length).toEqual(1)
-      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>)
+      return mockShowError.mock.calls[0][0].then(msg => {
+        expect(msg).toEqual(<span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>)
+      })
     })
 
     describe('verify button', () => {
@@ -343,7 +345,22 @@ describe('LoginPage.js Tests', () => {
       expect(mockAuthenticateUserDefaultAuth.mock.calls.length).toEqual(1)
     })
 
-    it('displays custom message(email is required) when both email/password are empty', () => {
+    it('displays custom message(Too many failed login attempts.) when locked out message', async () => {
+      const mockShowError = jest.fn()
+
+      wrapper = mount(<LoginPage history={history} />)
+      cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
+        callback.onFailure({ code: 'ABC', message: 'PreAuthentication failed with error Account Locked Out.' })
+      }
+      const instance = wrapper.instance()
+      instance.showError = mockShowError
+      await instance.login(event)
+
+      expect(mockShowError.mock.calls.length).toEqual(1)
+      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>)
+    })
+
+    it('displays custom message(email is required) when both email/password are empty', async () => {
       const mockShowError = jest.fn()
 
       wrapper = mount(<LoginPage history={history} />)
@@ -352,14 +369,14 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login(event)
+      await instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Email is required.')
       expect(document.activeElement.id).toEqual('email')
     })
 
-    it('displays custom error message when user is expired', () => {
+    it('displays custom error message when user is expired', async () => {
       const mockShowError = jest.fn()
 
       wrapper = mount(<LoginPage history={history} />)
@@ -368,14 +385,14 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login(event)
+      await instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Your temporary password has expired and must be reset by an administrator.')
       expect(document.activeElement.id).toEqual('email')
     })
 
-    it('displays default error message', () => {
+    it('displays default error message', async () => {
       const mockShowError = jest.fn()
 
       wrapper = mount(<LoginPage history={history} />)
@@ -384,13 +401,13 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login(event)
+      await instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
     })
 
-    it('changes errorMsg state to empty string after successful signIn', () => {
+    it('changes errorMsg state to empty string after successful signIn', async () => {
       const mockShowError = jest.fn()
 
       wrapper = mount(<LoginPage history={history} />)
@@ -399,7 +416,7 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login(event)
+      await instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')

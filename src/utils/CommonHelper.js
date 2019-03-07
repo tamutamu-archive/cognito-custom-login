@@ -1,13 +1,29 @@
 import React from 'react'
-export const customErrorMessage = (errorMessage) => {
+import axios from 'axios'
+
+export const customErrorMessage = (errorMessage, email) => {
   const customMessage = {
     'Missing required parameter USERNAME': 'Email is required.',
     'User account has expired, it must be reset by an administrator.': 'Your temporary password has expired and must be reset by an administrator.',
     1: (<span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>),
     2: (<span>Error. Incorrect code. You have <b>2</b> attempts remaining.</span>),
+    'Incorrect username or password. 0 Remaining': (<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>),
+    'Incorrect username or password. 1 Remaining': (<span>Login Error.  Incorrect Username or Password. You have <b>1</b> attempt remaining.</span>),
+    'Incorrect username or password. 2 Remaining': (<span>Login Error.  Incorrect Username or Password. You have <b>2</b> attempts remaining.</span>),
+    'PreAuthentication failed with error Account Locked Out.': (<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>),
     'default': errorMessage
   }
-  return customMessage[errorMessage] || customMessage.default
+
+  if (errorMessage === 'Incorrect username or password.') {
+    return axios.get(`${process.env.USERS_ENDPOINT_URL}${email}/loginData`, {})
+      .then(response => {
+        const remainingAttempts = response.data.loginData.remainingLoginAttempts
+
+        return Promise.resolve(customMessage[`Incorrect username or password. ${remainingAttempts} Remaining`])
+      })
+  }
+
+  return Promise.resolve(customMessage[errorMessage] || customMessage.default)
 }
 
 export const secondstoTime = seconds => {

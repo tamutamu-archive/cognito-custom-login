@@ -171,15 +171,17 @@ class LoginPage extends Component {
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
       newPasswordRequired: (userAttributes, requiredAttributes) => { showNewPasswordRequiredArea() },
       onFailure: err => {
-        const errorMessage = customErrorMessage(err.message)
-        showError(errorMessage)
+        customErrorMessage(err.message, cognitoUser.username)
+          .then(errorMessage => {
+            showError(errorMessage)
+          })
       },
       customChallenge: () => {
         // device challenge
         const challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
         cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
           onSuccess: result => { setCognitoToken(JSON.stringify(result)) },
-          onFailure: err => { showError(err.message) },
+          onFailure: (err) => { return showError(err.message) },
           customChallenge: challengeParameters => { showValidationArea(challengeParameters.maskedEmail) }
         })
       }
