@@ -7,21 +7,21 @@ class PasswordInput extends React.Component {
     super(props)
     this.state = { capslock: false }
 
-    this.handleKeydown = this.handleKeydown.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
   }
 
   render () {
     const { password, onChange, ariaLabelledBy, placeholder, tabIndex, inputRef } = this.props
     return (<React.Fragment>
       <input id={this.props.id} ref={inputRef} name='password' type='password' className='form-control inputField-customizable'
-        placeholder={placeholder} value={password} onChange={onChange} onClick={(event) => this.handleKeydown(event)}
-        onKeyDown={(event) => this.handleKeydown(event)} aria-labelledby={ariaLabelledBy} tabIndex={tabIndex} />
+        placeholder={placeholder} value={password} onChange={onChange} onClick={(event) => this.handleKeyPress(event)}
+        onKeyUp={(event) => this.handleKeyPress(event)} onKeyDown={(event) => this.handleKeyPress(event)} aria-labelledby={ariaLabelledBy} tabIndex={tabIndex} />
       {this.state.capslock && <Alert className='errorMessage-customizable' color='danger'>Caps Lock is on</Alert>}
     </React.Fragment>
     )
   }
 
-  handleKeydown (event) {
+  handleKeyPress (event) {
     const caps = event.getModifierState !== undefined && event.getModifierState('CapsLock')
     this.setState(state => ({
       capslock: caps
