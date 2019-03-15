@@ -10,7 +10,7 @@ export const customErrorMessage = (errorMessage, email) => {
     'Incorrect username or password. 0 Remaining': (<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>),
     'Incorrect username or password. 1 Remaining': (<span>Login Error.  Incorrect Username or Password. You have <b>1</b> attempt remaining.</span>),
     'Incorrect username or password. 2 Remaining': (<span>Login Error.  Incorrect Username or Password. You have <b>2</b> attempts remaining.</span>),
-    'PreAuthentication failed with error Account Locked Out.': (<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>),
+    'PreAuthentication failed with error Account Locked Out.': (<span>Too many failed login attempts. Please reset your password or contact your CWS-CARES administrator for assistance.</span>),
     'default': errorMessage
   }
 

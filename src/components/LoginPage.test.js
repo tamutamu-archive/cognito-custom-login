@@ -357,7 +357,7 @@ describe('LoginPage.js Tests', () => {
       await instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
-      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Too many failed login attempts.  Please contact your CWDS-CARES Admin for assistance</span>)
+      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Too many failed login attempts. Please reset your password or contact your CWS-CARES administrator for assistance.</span>)
     })
 
     it('displays custom message(email is required) when both email/password are empty', async () => {
