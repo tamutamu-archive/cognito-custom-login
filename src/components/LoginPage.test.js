@@ -247,9 +247,7 @@ describe('LoginPage.js Tests', () => {
       wrapper.instance().showError = mockShowError
       wrapper.instance().validate(event)
       expect(mockShowError.mock.calls.length).toEqual(1)
-      return mockShowError.mock.calls[0][0].then(msg => {
-        expect(msg).toEqual(<span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>)
-      })
+      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>)
     })
 
     describe('verify button', () => {

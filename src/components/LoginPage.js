@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { customErrorMessage } from '../utils/CommonHelper'
+import { customErrorMessage, customErrorMfaMessage } from '../utils/CommonHelper'
 import { validatePassword } from '../utils/validatePassword'
 import qs from 'query-string'
 import LoginForm from './LoginForm'
@@ -142,7 +142,7 @@ class LoginPage extends Component {
       },
       onFailure: () => {
         const count = attemptsRemaining - 1
-        const errorMessage = customErrorMessage(count)
+        const errorMessage = customErrorMfaMessage(count)
         if (count === 0) {
           showError('', MODE.LOGIN, mfaCount)
           clearInterval(this.timer)

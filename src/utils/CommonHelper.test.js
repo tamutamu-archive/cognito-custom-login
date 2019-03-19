@@ -1,5 +1,5 @@
 import React from 'react'
-import {customErrorMessage, secondstoTime} from '../utils/CommonHelper'
+import {customErrorMessage, customErrorMfaMessage, secondstoTime} from '../utils/CommonHelper'
 import mockAxios from 'axios'
 
 describe('Return custom error messages comparing default error messages from the amazon cognito', () => {
@@ -18,13 +18,13 @@ describe('Return custom error messages comparing default error messages from the
   it('displays custom error message when user is expired', () => {
     const input = 1
     const output = <span>Error. Incorrect code. You have <b>1</b> attempt remaining.</span>
-    expect(customErrorMessage(input)).toEqual(output)
+    expect(customErrorMfaMessage(input)).toEqual(output)
   })
 
   it('displays custom error message when user is expired', () => {
     const input = 2
     const output = <span>Error. Incorrect code. You have <b>2</b> attempts remaining.</span>
-    expect(customErrorMessage(input)).toEqual(output)
+    expect(customErrorMfaMessage(input)).toEqual(output)
   })
 
   it('displays default error message', () => {

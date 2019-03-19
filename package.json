@@ -9,7 +9,7 @@
     "preinstall": "node tools/nodeVersionCheck.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm run start-message",
-    "start": "ENV_PATH=./env/.cognitosandbox.env concurrently -k -r -s first  \"npm run open:src\"",
+    "start": "ENV_PATH=./env/.integration.env concurrently -k -r -s first  \"npm run open:src\"",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "eslint --ext .jsx --ext .js src",
