@@ -46,4 +46,25 @@ describe('validatePassword', () => {
     expect(instance.state.specialCharacter).toEqual(true)
     expect(instance.state.number).toEqual(false)
   })
+
+  it('validates when password does not meet specialCharacter requirement with plus sign', () => {
+    const password = '1234PASSword+'
+    validatePassword(instance, password)
+    expect(instance.state.maxLength).toEqual(true)
+    expect(instance.state.lowerCase).toEqual(true)
+    expect(instance.state.upperCase).toEqual(true)
+    expect(instance.state.specialCharacter).toEqual(false)
+    expect(instance.state.number).toEqual(true)
+  })
+  describe('Special chars are vsalidated as special', () => {
+    const specialChars = "[\\]{}()!@#$%^&*.,></\\?\\-\"':;|~`"
+    for (let charIndex = 0; charIndex < specialChars.length; charIndex++) {
+      // eslint-disable-next-line no-loop-func
+      const specialChar = specialChars.substr(charIndex, 1)
+      it(`should validate special char: ${specialChar}`, () => {
+        validatePassword(instance, specialChars.substr(charIndex, 1))
+        expect(instance.state.specialCharacter).toEqual(true)
+      })
+    }
+  })
 })
