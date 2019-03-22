@@ -23,7 +23,7 @@ const PasswordInstructions = props => {
       <div className="col-xs-6">
         <ul>
           <li>{props.validateNumber ? Tick() : Cross()} Numeric character [0-9]</li>
-          <li>{props.validateSpecialCharacter ? Tick() : Cross()} Special character</li>
+          <li title="^ $ * . [ ] { } ( ) ? - &quot; ! @ # % &amp; / \ , > < ' : ; | _ ~ `">{props.validateSpecialCharacter ? Tick() : Cross()} Special character</li>
         </ul>
         <br/>
         <br/>
