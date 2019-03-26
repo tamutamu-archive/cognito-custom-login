@@ -16,4 +16,10 @@ describe('PasswordInstructions.js Tests', () => {
     expect(wrapper.find('div').at(1).text()).toBe('× Minimum 8 characters× Lower case letter [a-z]× Upper case letter [A-Z]')
     expect(wrapper.find('div').at(2).text()).toBe('× Numeric character [0-9]× Special character')
   })
+  it('should pop up to display special characters', () => {
+    const props = {validateNumber: false, validateLowerCase: false, validateLength: false, validateUpperCase: false, validateSpecialCharacter: false}
+    const wrapper = shallow(<PasswordInstructions props={props}/>)
+    wrapper.find('#specialChar').simulate('click')
+    expect(wrapper.find('div(contains("> < ^ $ * . [ ] {} ( ) ? - &quot; ! @ # % &amp; / \\ ,")').exists()).toBe(true)
+  })
 })
