@@ -67,8 +67,8 @@ describe('validatePassword', () => {
   describe('Special chars are vsalidated as special', () => {
     const specialChars = "[\\]{}()!@#$%^&*.,></\\?\\-\"':;|~`"
     for (let charIndex = 0; charIndex < specialChars.length; charIndex++) {
-      // eslint-disable-next-line no-loop-func
       const specialChar = specialChars.substr(charIndex, 1)
+      // eslint-disable-next-line no-loop-func
       it(`should validate special char: ${specialChar}`, () => {
         validatePassword(instance, specialChars.substr(charIndex, 1))
         expect(instance.state.specialCharacter).toEqual(true)
