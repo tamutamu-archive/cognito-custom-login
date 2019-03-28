@@ -5,8 +5,16 @@ import LoginPage from '../components/LoginPage'
 import { mount } from 'enzyme'
 
 describe('validatePassword', () => {
-  const wrapper = mount(<LoginPage/>)
-  const instance = wrapper.instance()
+  let wrapper
+  let instance
+  beforeEach(() => {
+    const div = document.createElement('div')
+    div.setAttribute('id', 'specialchar')
+    document.body.appendChild(div)
+    wrapper = mount(<LoginPage />)
+    instance = wrapper.instance()
+  })
+
   it('validates when password meet all requirements', () => {
     const password = 'Email@123'
     validatePassword(instance, password)

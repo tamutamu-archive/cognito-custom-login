@@ -25,10 +25,10 @@ const PasswordInstructions = props => {
       <div className="col-xs-6">
         <ul>
           <li>{props.validateNumber ? Tick() : Cross()} Numeric character [0-9]</li>
-          <li id="specialChar">{props.validateSpecialCharacter ? Tick() : Cross()}
-             &nbsp;Special character <Icon name="info-circle" />
-            <UncontrolledTooltip target="specialChar" placement="bottom">
-                 &gt; &lt; ^ $ * . [ ] { } ( ) ? - &quot; ! @ # % &amp; / \ ,
+          <li id="specialchar">{props.validateSpecialCharacter ? Tick() : Cross()}{' Special character '}
+            <Icon name="info-circle" />
+            <UncontrolledTooltip target="specialchar" placement="bottom">
+              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `"}
             </UncontrolledTooltip>
           </li>
         </ul>

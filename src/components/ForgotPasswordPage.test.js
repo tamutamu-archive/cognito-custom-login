@@ -12,6 +12,9 @@ describe('ForgotPasswordPage.js Tests', () => {
   const event = { preventDefault: () => {} }
   let wrapper
   beforeEach(() => {
+    const div = document.createElement('div')
+    div.setAttribute('id', 'specialchar')
+    document.body.appendChild(div)
     wrapper = mount(<ForgotPasswordPage />)
   })
 

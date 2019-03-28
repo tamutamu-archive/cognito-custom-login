@@ -15,6 +15,9 @@ describe('LoginPage.js Tests', () => {
   jest.useFakeTimers()
   let wrapper
   beforeEach(() => {
+    const div = document.createElement('div')
+    div.setAttribute('id', 'specialchar')
+    document.body.appendChild(div)
     wrapper = mount(<LoginPage />)
   })
   it('should have mode of login by default', () => {
