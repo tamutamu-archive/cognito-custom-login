@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import UserMessage from './UserMessage'
+import { Button } from '@cwds/components'
 
 const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPassword, onCancel, inputRef}) => {
   return (
@@ -12,22 +13,21 @@ const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPa
       <input name="emal" ref={inputRef} id="email" className="form-control inputField-customizable" type="text"
         placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label' tabIndex="1"/>
       <div className= 'submit-block'>
-        <button
-          type="button"
+        <Button
+          type='button'
           id="cancelButton"
-          className="cancel-button btn btn-primary"
           onClick={onCancel}>
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type='submit'
-          id="validateButton"
-          className="reset-password-button btn btn-primary"
+          id='validateButton'
+          color='primary'
           disabled={!email || disableResetPassword}
           onClick={onSubmit}
           tabIndex="2">
           {disableResetPassword ? 'Loading....' : 'Reset my password'}
-        </button>
+        </Button>
       </div>
     </form>
   )

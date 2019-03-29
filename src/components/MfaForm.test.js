@@ -136,7 +136,7 @@ describe('MfaForm.js Tests', () => {
   })
 
   describe('Cancel button Tests', () => {
-    const button = wrapper.find('.cancel-button')
+    const button = wrapper.find('#cancelButton')
     it('contains cancel button', () => {
       expect(button).toHaveLength(1)
     })

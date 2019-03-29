@@ -42,12 +42,9 @@ const MfaForm = ({ maskedEmail, code, onCodeChange, onValidate, disableVerify, o
         </span>
         <span>
           <Button
-            outline
-            color='primary'
             size='lg'
             type="button"
             id="cancelButton"
-            className="cancel-button btn btn-primary"
             onClick={onCancel}>
           Cancel
           </Button>

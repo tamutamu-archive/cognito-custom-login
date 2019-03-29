@@ -86,7 +86,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onSubmit = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button).toHaveLength(2)
   })
@@ -96,7 +96,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onSubmit = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button.at(1).props().children).toEqual('Reset my password')
   })
@@ -106,7 +106,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onSubmit = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button).toHaveLength(2)
     expect(button.at(1).props().onClick).toEqual(onSubmit)
@@ -118,7 +118,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onCancel = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit} onCancel={onCancel}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button.at(0).props().children).toEqual('Cancel')
   })
@@ -129,7 +129,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onCancel = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit} onCancel={onCancel}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button.at(0).props().onClick).toEqual(onCancel)
   })
@@ -140,7 +140,7 @@ describe('ForgotPasswordForm.js Tests', () => {
     const onCancel = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm disableResetPassword={true} email="a@test.com" onChange={onChange} onSubmit={onSubmit} onCancel={onCancel}/>)
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('Button')
 
     expect(button.at(1).props().children).toEqual('Loading....')
   })
