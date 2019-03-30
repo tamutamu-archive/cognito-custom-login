@@ -78,6 +78,8 @@
 .passwordCheck-valid-customizable {
 	color: #19BF00;
 }
-.background-customizable {
-	background-color: #fff;
+/*correct the login / password font size */
+.form-control {
+	font-size: 14px;
 }
+
