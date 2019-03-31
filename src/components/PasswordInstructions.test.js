@@ -19,7 +19,6 @@ describe('PasswordInstructions.js Tests', () => {
   })
   it('should pop up to display special characters', () => {
     const props = {validateNumber: false, validateLowerCase: false, validateLength: false, validateUpperCase: false, validateSpecialCharacter: false}
-    const div = document.createElement('div')
     const wrapper = shallow(<PasswordInstructions/>)
     expect(wrapper.find('UncontrolledTooltip').length).toBe(1)
     expect(wrapper.find('UncontrolledTooltip').props().children).toBe("^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `")
