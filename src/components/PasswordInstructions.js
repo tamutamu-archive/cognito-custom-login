@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { UncontrolledTooltip, Icon } from '@cwds/components'
 
 export const Cross = () => {
   return <span className="text-danger">&times;</span>
@@ -17,13 +18,19 @@ const PasswordInstructions = props => {
         <ul>
           <li>{props.validateLength ? Tick() : Cross()} Minimum 8 characters</li>
           <li>{props.validateLowerCase ? Tick() : Cross()} Lower case letter [a-z]</li>
-          <li>{props.validateUpperCase ? Tick() : Cross()} Upper case letter [A-Z]</li>
+          <li>{props.validateUpperCase ? Tick() : Cross()} Upper case letter [A-Z]
+          </li>
         </ul>
       </div>
       <div className="col-xs-6">
         <ul>
           <li>{props.validateNumber ? Tick() : Cross()} Numeric character [0-9]</li>
-          <li>{props.validateSpecialCharacter ? Tick() : Cross()} Special character</li>
+          <li id="specialchar">{props.validateSpecialCharacter ? Tick() : Cross()}{' Special character '}
+            <Icon name="info-circle" />
+            <UncontrolledTooltip target="specialchar" placement="bottom">
+              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `"}
+            </UncontrolledTooltip>
+          </li>
         </ul>
         <br/>
         <br/>

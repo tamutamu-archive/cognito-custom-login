@@ -3,5 +3,5 @@ export function validatePassword (instance, newPassword) {
   newPassword.match(/([a-z])/gm) ? instance.setState({lowerCase: true}) : instance.setState({lowerCase: false})
   newPassword.match(/([A-Z])/gm) ? instance.setState({upperCase: true}) : instance.setState({upperCase: false})
   newPassword.match(/([0-9])/gm) ? instance.setState({number: true}) : instance.setState({number: false})
-  newPassword.match(/(\W)/gm) ? instance.setState({specialCharacter: true}) : instance.setState({specialCharacter: false})
+  newPassword.match(/(?=.*[[\]{}()!@#$%^&*.,></\\?\-"':;|~`])/gm) ? instance.setState({specialCharacter: true}) : instance.setState({specialCharacter: false})
 }
