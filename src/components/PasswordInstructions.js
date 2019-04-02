@@ -28,7 +28,7 @@ const PasswordInstructions = props => {
           <li id="specialchar">{props.validateSpecialCharacter ? Tick() : Cross()}{' Special character '}
             <Icon name="info-circle" />
             <UncontrolledTooltip target="specialchar" placement="bottom">
-              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `"}
+              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % & / \\ , > < ' : ; | _ ~ `"}
             </UncontrolledTooltip>
           </li>
         </ul>
