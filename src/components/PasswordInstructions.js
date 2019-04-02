@@ -13,7 +13,7 @@ export const Tick = () => {
 const PasswordInstructions = props => {
   return (
     <div className='passwordIndicatorSection'>
-      <span>Password must contain the following:</span><br/>
+      <span>Password must contain the following:</span><br />
       <div className="col-xs-6">
         <ul>
           <li>{props.validateLength ? Tick() : Cross()} Minimum 8 characters</li>
@@ -28,12 +28,12 @@ const PasswordInstructions = props => {
           <li id="specialchar">{props.validateSpecialCharacter ? Tick() : Cross()}{' Special character '}
             <Icon name="info-circle" />
             <UncontrolledTooltip target="specialchar" placement="bottom">
-              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `"}
+              {"^ $ * . [ ] { } ( ) ? - \" ! @ # % & / \\ , > < ' : ; | _ ~ `"}
             </UncontrolledTooltip>
           </li>
         </ul>
-        <br/>
-        <br/>
+        <br />
+        <br />
       </div>
     </div>
   )

@@ -21,6 +21,6 @@ describe('PasswordInstructions.js Tests', () => {
     const props = {validateNumber: false, validateLowerCase: false, validateLength: false, validateUpperCase: false, validateSpecialCharacter: false}
     const wrapper = shallow(<PasswordInstructions/>)
     expect(wrapper.find('UncontrolledTooltip').length).toBe(1)
-    expect(wrapper.find('UncontrolledTooltip').props().children).toBe("^ $ * . [ ] { } ( ) ? - \" ! @ # % &amp; / \\ , > < ' : ; | _ ~ `")
+    expect(wrapper.find('UncontrolledTooltip').props().children).toBe("^ $ * . [ ] { } ( ) ? - \" ! @ # % & / \\ , > < ' : ; | _ ~ `")
   })
 })
