@@ -168,6 +168,7 @@ class LoginPage extends Component {
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
 
     const authenticationDetails = Auth.authenticationDetails(this.state)
+
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
       newPasswordRequired: (userAttributes, requiredAttributes) => { showNewPasswordRequiredArea() },
       onFailure: err => {

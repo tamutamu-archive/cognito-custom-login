@@ -18,7 +18,10 @@ export function authenticationDetails (state) {
   const username = state.email.toLowerCase()
   const authenticationData = {
     Username: username.trim(),
-    Password: state.password.trim()
+    Password: state.password.trim(),
+    ValidationData: {
+      password: state.password.trim()
+    }
   }
 
   return new AuthenticationDetails(authenticationData)
