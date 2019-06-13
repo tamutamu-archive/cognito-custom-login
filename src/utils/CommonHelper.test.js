@@ -47,7 +47,7 @@ describe('Return custom error messages comparing default error messages from the
       })
     )
 
-    const input = 'Incorrect username or password.'
+    const input = 'PreAuthentication failed with error Login was not successful - 2.'
     await expect(customErrorMessage(input)).resolves.toEqual((<span>Login Error.  Incorrect Username or Password. You have <b>1</b> attempt remaining.</span>))
   })
 
