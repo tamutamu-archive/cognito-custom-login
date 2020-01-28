@@ -130,7 +130,7 @@ def unitTestStage() {
 
 def buildEnvDist() {
   stage('Build Environment dist files') {
-        app.withRun("-e CI=true -v dist:/coglogin/dist") { container ->
+        app.withRun("-e CI=true") { container ->
           sh "docker exec -t ${container.id} sh -c 'ENV_PATH=./env/.${ENVRP}.env npm run build'"
         }
         script{
