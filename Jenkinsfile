@@ -130,19 +130,17 @@ def unitTestStage() {
 
 def buildEnvDist() {
   stage('Build Environment dist files') {
-    steps{
         app.withRun("-e CI=true -v dist:/coglogin/dist") { container ->
           sh "docker exec -t ${container.id} sh -c 'ENV_PATH=./env/.${ENVRP}.env npm run build'"
         }
         script{
             zip archive: true, dir: 'dist', zipFile: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip'
         }
-    }
-    post {
+  }
+  post {
        success {
           archiveArtifacts artifacts: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip', fingerprint: true, onlyIfSuccessful: true
        }
-    }
   }
 }
 
