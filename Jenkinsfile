@@ -9,6 +9,7 @@ def SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/T0FSW5RLH/BFYUXDX7D/M3
 
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
+  case "manual": buildManual(); break;
   default: buildPullRequest();
 }
 
@@ -43,10 +44,39 @@ def buildMaster() {
     triggerProperties = pullRequestMergedTriggerProperties('cognito-custom-login')
     properties([
       parameters([
-        string(name: 'INCREMENT_VERSION', defaultValue: '', description: 'major, minor, or patch')
+        string(name: 'INCREMENT_VERSION', defaultValue: '', description: 'major, minor, or patch'),
       ]),
       githubConfig(),
       pipelineTriggers([triggerProperties]),
+      buildDiscarderDefaults('master')
+    ])
+
+    try {
+      checkoutStage()
+      buildDockerImageStage()
+      parallel(
+        'Lint': { lintStage() },
+        'Unit Test': { unitTestStage() }
+      )
+    } catch(Exception exception) {
+      currentBuild.result = "FAILURE"
+      notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
+      throw exception
+    } finally {
+      cleanupStage()
+    }
+  }
+}
+
+
+def buildManual() {
+  node('cap-slave') {
+    properties([
+      parameters([
+        string(name: 'INCREMENT_VERSION', defaultValue: 'patch', description: 'major, minor, or patch'),
+        choice(choices: ['integration', 'training', 'staging', 'production'], description: '', name: 'ENVRP')
+      ]),
+      githubConfig(),
       buildDiscarderDefaults('master')
     ])
 
@@ -67,6 +97,7 @@ def buildMaster() {
     }
   }
 }
+
 
 def checkoutStage() {
   stage('Checkout') {
@@ -109,7 +140,7 @@ def buildEnvDist() {
     }
     post {
        success {
-          archiveArtifacts artifacts: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip', fingerprint: true
+          archiveArtifacts artifacts: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip', fingerprint: true, onlyIfSuccessful: true
        }
     }
   }
