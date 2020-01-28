@@ -83,10 +83,6 @@ def buildManual() {
     try {
       checkoutStage()
       buildDockerImageStage()
-      parallel(
-        'Lint': { lintStage() },
-        'Unit Test': { unitTestStage() }
-      )
       buildEnvDist()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
