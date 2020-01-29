@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer')
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = 'http://localhost:3000/coglogin/'
 
 describe('Login page', () => {
   test('loads successfully', async () => {
