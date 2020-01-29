@@ -130,14 +130,14 @@ def buildEnvDist() {
         app.withRun("-e CI=true -v ${env.WORKSPACE}/dist:/coglogin/dist ") { container ->
           sh "docker exec -t ${container.id} sh -c 'ENV_PATH=./env/.${ENVRP}.env npm run build'"
           script{
-                zip archive: true, dir: '${env.WORKSPACE}/dist', zipFile: '${env.WORKSPACE}/coglogin_${ENVRP}_${env.BUILD_ID}.zip'
+                zip archive: true, dir: 'dist', zipFile: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip'
           }
         }
      }
   }
   post {
        success {
-          archiveArtifacts artifacts: '${env.WORKSPACE}/coglogin_${ENVRP}_${env.BUILD_ID}.zip', fingerprint: true, onlyIfSuccessful: true
+          archiveArtifacts artifacts: 'coglogin_${ENVRP}_${env.BUILD_ID}.zip', fingerprint: true, onlyIfSuccessful: true
        }
   }
 }
