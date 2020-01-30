@@ -42,6 +42,7 @@
     "@cwds/components": "^1.1.3",
     "amazon-cognito-identity-js": "^2.0.0",
     "axios": "0.18.0",
+    "bootstrap": "4.4.1",
     "dotenv-webpack": "1.5.7",
     "object-assign": "4.1.0",
     "query-string": "5.1.1",
