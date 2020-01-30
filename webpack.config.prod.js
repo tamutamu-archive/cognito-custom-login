@@ -9,6 +9,8 @@ import Dotenv from 'dotenv-webpack'
 
 const RE_CSSMODULE = /\.module\.css$/
 
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__: false
@@ -24,7 +26,7 @@ export default {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: ASSET_PATH,
     filename: '[name].[chunkhash].js'
   },
   plugins: [

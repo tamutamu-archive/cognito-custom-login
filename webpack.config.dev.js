@@ -6,6 +6,8 @@ import Dotenv from 'dotenv-webpack'
 
 const RE_CSSMODULE = /\.module\.css$/
 
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
@@ -22,7 +24,7 @@ export default {
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
-    publicPath: '/',
+    publicPath: ASSET_PATH,
     filename: 'bundle.js'
   },
   plugins: [
