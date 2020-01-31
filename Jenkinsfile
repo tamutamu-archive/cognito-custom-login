@@ -138,6 +138,23 @@ def buildEnvDist() {
   }
 }
 
+def uploadSpec = """ {
+    "files": [
+      {
+        "pattern": "coglogin_(*)_*.zip",
+        "target": "libs-local/cognito-login/coglogin/coglogin-{1}.zip"
+      }
+    ]
+
+}"""
+
+def uploadArtifactory(){
+  stage('Upload artifact to Artifactory'){
+    def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
+    serverArti.upload spec: uploadSpec , failNoOp: true
+  }
+
+}
 
 def checkForLabelPullRequest() {
   stage('Verify SemVer Label') {
