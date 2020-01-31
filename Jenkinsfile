@@ -145,8 +145,8 @@ def uploadArtifactory(){
     def uploadSpec = """ {
         "files": [
           {
-            "pattern": "coglogin_(*)_*.zip",
-            "target": "libs-local/cognito-login/coglogin/coglogin-{1}.zip"
+            "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
+            "target": "libs-local/cognito-login/coglogin/coglogin-${ENVRP}.zip"
           }
         ]
 
