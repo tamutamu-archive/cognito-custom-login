@@ -13,6 +13,7 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
+  'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
   __DEV__: false
 }
 
@@ -35,7 +36,6 @@ export default {
 
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
     new webpack.DefinePlugin(GLOBALS),
-
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].[md5:contenthash:hex:20].css'),
 

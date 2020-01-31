@@ -29,6 +29,9 @@ export default {
   },
   plugins: [
     new HardSourceWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({ // Create HTML file that includes references to bundled CSS and JS.
