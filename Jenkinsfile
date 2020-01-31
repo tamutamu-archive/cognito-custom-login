@@ -151,7 +151,7 @@ def uploadArtifactory(){
         ]
 
     }"""
-    serverArti.upload spec: uploadSpec
+    serverArti.upload spec: uploadSpec, failNoOp: true
   }
 }
 
