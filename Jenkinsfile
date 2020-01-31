@@ -84,6 +84,7 @@ def buildManual() {
       checkoutStage()
       buildDockerImageStage()
       buildEnvDist()
+      uploadArtifactory()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
