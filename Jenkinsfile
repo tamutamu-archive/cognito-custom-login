@@ -139,22 +139,20 @@ def buildEnvDist() {
   }
 }
 
-def uploadSpec = """ {
-    "files": [
-      {
-        "pattern": "coglogin_(*)_*.zip",
-        "target": "libs-local/cognito-login/coglogin/coglogin-{1}.zip"
-      }
-    ]
-
-}"""
-
 def uploadArtifactory(){
   stage('Upload artifact to Artifactory'){
     def serverArti = Artifactory.server 'CWDS_DEV'
-    serverArti.upload spec: uploadSpec , failNoOp: true
-  }
+    def uploadSpec = """ {
+        "files": [
+          {
+            "pattern": "coglogin_(*)_*.zip",
+            "target": "libs-local/cognito-login/coglogin/coglogin-{1}.zip"
+          }
+        ]
 
+    }"""
+    serverArti.upload spec: uploadSpec
+  }
 }
 
 def checkForLabelPullRequest() {
