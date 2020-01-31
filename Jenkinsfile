@@ -151,7 +151,7 @@ def uploadSpec = """ {
 
 def uploadArtifactory(){
   stage('Upload artifact to Artifactory'){
-    def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
+    def serverArti = Artifactory.server 'CWDS_DEV'
     serverArti.upload spec: uploadSpec , failNoOp: true
   }
 
