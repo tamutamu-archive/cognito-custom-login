@@ -141,17 +141,18 @@ def buildEnvDist() {
 
 def uploadArtifactory(){
   stage('Upload artifact to Artifactory'){
-    def serverArti = Artifactory.server 'CWDS_DEV'
-    def uploadSpec = """ {
-        "files": [
-          {
-            "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
-            "target": "/libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${ENVRP}.zip"
-          }
-        ]
-
-    }"""
-    serverArti.upload spec: uploadSpec, failNoOp: true
+    ws {
+        def serverArti = Artifactory.server 'CWDS_DEV'
+        def uploadSpec = """ {
+            "files": [
+              {
+                "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
+                "target": "/libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${ENVRP}.zip"
+              }
+            ]
+        }"""
+        serverArti.upload spec: uploadSpec, failNoOp: true
+    }
   }
 }
 
