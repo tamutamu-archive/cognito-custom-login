@@ -84,7 +84,6 @@ def buildManual() {
       checkoutStage()
       buildDockerImageStage()
       buildEnvDist()
-      uploadArtifactory()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
@@ -132,27 +131,20 @@ def buildEnvDist() {
           sh "docker exec -t ${container.id} sh -c 'ENV_PATH=./env/.${ENVRP}.env npm run build'"
           script{
                 zip archive: true, dir: 'dist', zipFile: "coglogin_${ENVRP}_${env.BUILD_ID}.zip"
+                def serverArti = Artifactory.server 'CWDS_DEV'
+                def uploadSpec = """ {
+                    "files": [
+                      {
+                        "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
+                        "target": "/libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${ENVRP}.zip"
+                      }
+                    ]
+                }"""
+                serverArti.upload spec: uploadSpec, failNoOp: true
                 archiveArtifacts artifacts: "coglogin_${ENVRP}_${env.BUILD_ID}.zip", fingerprint: true, onlyIfSuccessful: true
           }
         }
      }
-  }
-}
-
-def uploadArtifactory(){
-  stage('Upload artifact to Artifactory'){
-    ws {
-        def serverArti = Artifactory.server 'CWDS_DEV'
-        def uploadSpec = """ {
-            "files": [
-              {
-                "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
-                "target": "/libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${ENVRP}.zip"
-              }
-            ]
-        }"""
-        serverArti.upload spec: uploadSpec, failNoOp: true
-    }
   }
 }
 
