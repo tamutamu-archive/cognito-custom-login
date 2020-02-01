@@ -84,6 +84,7 @@ def buildManual() {
       checkoutStage()
       buildDockerImageStage()
       buildEnvDist()
+      uploadArtifactory()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
@@ -132,7 +133,6 @@ def buildEnvDist() {
           script{
                 zip archive: true, dir: 'dist', zipFile: "coglogin_${ENVRP}_${env.BUILD_ID}.zip"
                 archiveArtifacts artifacts: "coglogin_${ENVRP}_${env.BUILD_ID}.zip", fingerprint: true, onlyIfSuccessful: true
-                uploadArtifactory()
           }
         }
      }
