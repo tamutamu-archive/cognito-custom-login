@@ -135,8 +135,9 @@ def buildEnvDist() {
                 def uploadSpec = """ {
                     "files": [
                       {
-                        "pattern": "coglogin_${ENVRP}_${env.BUILD_ID}.zip",
-                        "target": "libs-snapshot-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin_${ENVRP}.zip"
+                        "pattern": "coglogin_(*)_${env.BUILD_ID}\.zip",
+                        "target": "libs-snapshot-local/cognito-login/coglogin/${env.BUILD_ID}/",
+                        "props": "env=${ENVRP}"
                       }
                     ]
                 }"""
