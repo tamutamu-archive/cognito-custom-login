@@ -4,7 +4,6 @@ import { AppContainer } from 'react-hot-loader'
 import Root from './components/Root'
 import './assets/stylesheets/cognito-login.css'
 import './assets/stylesheets/custom-css.css'
-import 'bootstrap'
 
 render(
   <AppContainer>
