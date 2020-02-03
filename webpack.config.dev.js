@@ -6,8 +6,6 @@ import Dotenv from 'dotenv-webpack'
 
 const RE_CSSMODULE = /\.module\.css$/
 
-const ASSET_PATH = process.env.ASSET_PATH || '/';
-
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
@@ -24,14 +22,11 @@ export default {
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
-    publicPath: ASSET_PATH,
+    publicPath: '/coglogin/',
     filename: 'bundle.js'
   },
   plugins: [
     new HardSourceWebpackPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({ // Create HTML file that includes references to bundled CSS and JS.
