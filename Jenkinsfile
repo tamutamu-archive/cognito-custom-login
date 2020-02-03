@@ -136,7 +136,7 @@ def buildEnvDist() {
                     "files": [
                       {
                         "pattern": "coglogin*.zip",
-                        "target": "generic/cognito-login/coglogin/coglogin-${env.BUILD_ID}.zip",
+                        "target": "libs-release-local/cognito-login/coglogin/coglogin-${env.BUILD_ID}.zip",
                         "props": "type=zip;env=${ENVRP}"
                       }
                     ]
