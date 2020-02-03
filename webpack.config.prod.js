@@ -30,11 +30,6 @@ export default {
     publicPath: '/coglogin/',
     filename: '[name].[chunkhash].js'
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
   plugins: [
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
