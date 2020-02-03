@@ -14,7 +14,7 @@ switch(env.BUILD_JOB_TYPE) {
 }
 
 def buildPullRequest() {
-  node('cap-slave') {
+  node('linux') {
    def triggerProperties = githubPullRequestBuilderTriggerProperties()
     properties([
       githubConfig(),
@@ -40,7 +40,7 @@ def buildPullRequest() {
 }
 
 def buildMaster() {
-  node('cap-slave') {
+  node('linux') {
     triggerProperties = pullRequestMergedTriggerProperties('cognito-custom-login')
     properties([
       parameters([
@@ -70,7 +70,7 @@ def buildMaster() {
 
 
 def buildManual() {
-  node('cap-slave') {
+  node('linux') {
     properties([
       parameters([
         string(name: 'INCREMENT_VERSION', defaultValue: 'patch', description: 'major, minor, or patch'),
