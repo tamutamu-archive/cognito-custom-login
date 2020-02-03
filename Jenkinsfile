@@ -136,13 +136,12 @@ def buildEnvDist() {
                     "files": [
                       {
                         "pattern": "coglogin*.zip",
-                        "target": "libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${env.BUILD_ID}.zip",
-                        "props": "type=zip;env=${ENVRP}"
+                        "target": "libs-release-local/cognito-login/coglogin/${env.BUILD_ID}/coglogin-${env.BUILD_ID}.jar",
+                        "props": "type=jar;env=${ENVRP}"
                       }
                     ]
                 }"""
                 serverArti.upload spec: uploadSpec, failNoOp: true
-                serverArti.
                 archiveArtifacts artifacts: "coglogin_${ENVRP}_${env.BUILD_ID}.zip", fingerprint: true, onlyIfSuccessful: true
           }
         }
