@@ -2,7 +2,7 @@ module.exports = {
   launch: {
     dumpio: true,
     headless: true,
-    devtools: true,
+    devtools: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   },
   server: {

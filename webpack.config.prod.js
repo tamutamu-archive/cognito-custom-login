@@ -56,7 +56,7 @@ export default {
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
-      filename: 'login',
+      filename: './login',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -73,7 +73,7 @@ export default {
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
-      filename: 'forgotPassword',
+      filename: './forgotPassword',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
