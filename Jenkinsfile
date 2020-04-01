@@ -52,11 +52,11 @@ def buildMaster() {
 
     try {
       checkoutStage()
-      buildDockerImageStage()
-      parallel(
-        'Lint': { lintStage() },
-        'Unit Test': { unitTestStage() }
-      )
+      // buildDockerImageStage()
+      // parallel(
+      //   'Lint': { lintStage() },
+      //   'Unit Test': { unitTestStage() }
+      // )
       incrementTagStage()
       tagRepoStage()
 //      publishImageStage()
@@ -108,7 +108,7 @@ def checkForLabelPullRequest() {
 
 def incrementTagStage() {
   stage("Increment Tag") {
-    //newTag = newSemVer()
+    newTag = newSemVer()
   }
 }
 
