@@ -114,7 +114,7 @@ def incrementTagStage() {
 
 def tagRepoStage() {
   stage('Tag Repo') {
-    //tagGithubRepo(newTag, GITHUB_CREDENTIALS_ID)
+    tagGithubRepo(newTag, GITHUB_CREDENTIALS_ID)
   }
 }
 
