@@ -52,11 +52,11 @@ def buildMaster() {
 
     try {
       checkoutStage()
-      buildDockerImageStage()
       parallel(
         'Lint': { lintStage() },
         'Unit Test': { unitTestStage() }
       )
+      buildDockerImageStage()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
