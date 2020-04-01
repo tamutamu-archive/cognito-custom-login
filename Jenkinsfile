@@ -52,11 +52,15 @@ def buildMaster() {
 
     try {
       checkoutStage()
+      buildDockerImageStage()
       parallel(
         'Lint': { lintStage() },
         'Unit Test': { unitTestStage() }
       )
-      buildDockerImageStage()
+      incrementTagStage()
+      tagRepoStage()
+//      publishImageStage()
+//      triggerReleasePipeline()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
@@ -99,6 +103,18 @@ def unitTestStage() {
 def checkForLabelPullRequest() {
   stage('Verify SemVer Label') {
     checkForLabel("cognito-custom-login")
+  }
+}
+
+def incrementTagStage() {
+  stage("Increment Tag") {
+    //newTag = newSemVer()
+  }
+}
+
+def tagRepoStage() {
+  stage('Tag Repo') {
+    //tagGithubRepo(newTag, GITHUB_CREDENTIALS_ID)
   }
 }
 
