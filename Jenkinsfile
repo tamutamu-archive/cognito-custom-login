@@ -22,7 +22,7 @@ def buildPullRequest() {
     ])
     try {
       checkoutStage()
-      buildDockerImageStage()
+      //buildDockerImageStage()
       parallel(
         'Lint': { lintStage() },
         'Unit Test': { unitTestStage() }
