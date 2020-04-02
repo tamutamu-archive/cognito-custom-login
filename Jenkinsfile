@@ -68,7 +68,7 @@ def buildMaster() {
       // )
       incrementTagStage()
       tagRepoStage()
-      publishImageStage()
+//      publishImageStage()
 //      triggerReleasePipeline()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
