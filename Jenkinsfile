@@ -59,7 +59,7 @@ def buildMaster() {
       // )
       incrementTagStage()
       tagRepoStage()
-//      publishImageStage()
+      publishImageStage()
 //      triggerReleasePipeline()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
@@ -117,6 +117,18 @@ def tagRepoStage() {
     tagGithubRepo(newTag, GITHUB_CREDENTIALS_ID)
   }
 }
+
+def publishImageStage() {
+  stage ('Publish Image'){
+    GIT_REFSPEC = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+    app = docker.build("${DOCKER_NAME}:${GIT_REFSPEC}", "--build-arg APP_VERSION=${newTag} -f Dockerfile .")
+    withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
+      app.push(newTag)
+      app.push('latest')
+    }
+  }
+}
+
 
 def cleanupStage() {
   stage('Cleanup') {
