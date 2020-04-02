@@ -11,6 +11,11 @@ def GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 @Field
 def SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'
 
+@Field
+def app
+@Field
+def newTag
+
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
   default: buildPullRequest();
@@ -61,8 +66,8 @@ def buildMaster() {
       //   'Lint': { lintStage() },
       //   'Unit Test': { unitTestStage() }
       // )
-      //incrementTagStage()
-      //tagRepoStage()
+      incrementTagStage()
+      tagRepoStage()
       publishImageStage()
 //      triggerReleasePipeline()
     } catch(Exception exception) {
