@@ -69,7 +69,7 @@ def buildMaster() {
       incrementTagStage()
       tagRepoStage()
       publishImageStage()
-      triggerReleasePipeline()
+      //triggerReleasePipeline()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
