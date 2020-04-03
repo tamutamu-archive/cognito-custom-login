@@ -67,7 +67,7 @@ def buildMaster() {
       //   'Unit Test': { unitTestStage() }
       // )
       incrementTagStage()
-      tagRepoStage()
+//      tagRepoStage()
 //      publishImageStage()
 //      triggerReleasePipeline()
     } catch(Exception exception) {
