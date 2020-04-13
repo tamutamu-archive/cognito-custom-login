@@ -79,7 +79,7 @@ def buildManual() {
   node('linux') {
     properties([
       parameters([
-        string(name: 'TAG', defaultValue: '', description: 'version tag to build'),
+        gitParameter name: 'TAG', type: 'PT_TAG', defaultValue: 'master'
         choice(choices: ['integration', 'training', 'staging', 'production'], description: '', name: 'ENVIRONMENT')
       ]),
       githubConfig(),
@@ -102,8 +102,14 @@ def buildManual() {
 def checkoutTagStage() {
   stage('Checkout') {
     steps {
-      deleteDir()
-      checkout scm: [$class: 'GitSCM', branches: [[name: 'refs/tags/${TAG}']]], poll: false
+        checkout([$class: 'GitSCM', 
+                  branches: [[name: "${params.TAG}"]], 
+                  doGenerateSubmoduleConfigurations: false, 
+                  extensions: [], 
+                  gitTool: 'Default', 
+                  submoduleCfg: [], 
+                  userRemoteConfigs: [[url: 'https://github.com/ca-cwds/cognito-custom-login.git']]
+                ])
     }
   }
 }
