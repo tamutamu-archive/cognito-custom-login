@@ -87,7 +87,7 @@ def buildManual() {
     ])
 
     try {
-      checkoutTagStage()
+      checkoutStage()
 //      buildEnvDist()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
