@@ -87,7 +87,7 @@ def buildManual() {
     ])
 
     try {
-      checkoutStage()
+      checkoutTagStage()
 //      buildEnvDist()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
@@ -99,6 +99,14 @@ def buildManual() {
   }
 }
 
+def checkoutTagStage() {
+  stage('Checkout') {
+    steps {
+      deleteDir()
+      checkout scm: [$class: 'GitSCM', branches: [[name: 'refs/tags/${TAG}']]], poll: false
+    }
+  }
+}
 
 def checkoutStage() {
   stage('Checkout') {
