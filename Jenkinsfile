@@ -14,6 +14,7 @@ def newTag
 
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
+  case "manual": buildManual(); break;
   default: buildPullRequest();
 }
 
@@ -64,7 +65,30 @@ def buildMaster() {
       )
       incrementTagStage()
       tagRepoStage()
-      //triggerReleasePipeline()
+    } catch(Exception exception) {
+      currentBuild.result = "FAILURE"
+      notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
+      throw exception
+    } finally {
+      cleanupStage()
+    }
+  }
+}
+
+def buildManual() {
+  node('linux') {
+    properties([
+      parameters([
+        choice(choices: ['integration', 'training', 'staging', 'production'], description: '', name: 'ENVRP')
+      ]),
+      githubConfig(),
+      buildDiscarderDefaults('master')
+    ])
+
+    try {
+      checkoutStage()
+      buildDockerImageStage()
+      buildEnvDist()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       notifySlack(SLACK_WEBHOOK_URL, "cognito-custom-login", exception)
@@ -101,6 +125,31 @@ def unitTestStage() {
     app.withRun("-e CI=true") { container ->
       sh "docker exec -t ${container.id} sh -c 'yarn test'"
     }
+  }
+}
+
+def buildEnvDist() {
+  stage('Build Environment dist files') {
+     ws {
+        app.withRun("-e CI=true -v ${env.WORKSPACE}/dist:/coglogin/dist -p 3000:3000 ") { container ->
+          sh "docker exec -t ${container.id} sh -c 'yarn run build:${ENVRP}'"
+          script{
+                zip archive: true, dir: 'dist', zipFile: "coglogin_${ENVRP}_${env.BUILD_ID}.zip"
+                def serverArti = Artifactory.server 'CWDS_DEV'
+                def uploadSpec = """ {
+                    "files": [
+                      {
+                        "pattern": "coglogin*.zip",
+                        "target": "libs-snapshot-local/cognito-login/coglogin/coglogin-${ENVRP}.zip",
+                        "props": "type=zip;env=${ENVRP}"
+                      }
+                    ]
+                }"""
+                serverArti.upload spec: uploadSpec, failNoOp: true
+                archiveArtifacts artifacts: "coglogin_${ENVRP}_${env.BUILD_ID}.zip", fingerprint: true, onlyIfSuccessful: true
+          }
+        }
+     }
   }
 }
 
