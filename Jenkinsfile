@@ -79,10 +79,11 @@ def buildManual() {
   node('linux') {
     properties([
       parameters([
-        choice(choices: ['integration', 'training', 'staging', 'production'], description: '', name: 'ENVRP')
+        choice(choices: ['integration', 'training', 'staging', 'production'], description: '', name: 'ENVRP'),
+        string(name: 'branch', defaultValue: 'master', description: 'What patch we want to build')
       ]),
       githubConfig(),
-      buildDiscarderDefaults('master')
+      buildDiscarderDefaults()
     ])
 
     try {
