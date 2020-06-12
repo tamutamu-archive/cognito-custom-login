@@ -69,14 +69,12 @@ const LoginForm = ({
         privacy as to any communication on, or to any information stored within
         the system, or to any devices used to access this system.
       </p>
-      <p>
-        Do Not Use
-        <span style={{ paddingLeft: '5px' }}>
-          <a className='redirect-customizable' href='/forgotPassword'>
-            Training Admins Only
-          </a>
-        </span>
-      </p>
+      <div style={{ textAlign: 'center', color: 'red' }}>Do Not Use</div>
+      <div style={{ textAlign: 'center' }}>
+        <a className='redirect-customizable' href='/forgotPassword'>
+          Training Admins Only
+        </a>
+      </div>
     </form>
   )
 }
